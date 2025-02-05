@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <%- include ('includes/header.ejs') %>
+  </head>
+  
+  <body>
+      <%- include ('includes/navigation.ejs') %>
+      <div class='container' style='min-height: 450px'>
+        <h2>XXE Lab</h2>
+        <br>
+        <p>Application is using <code class="highlighter-rouge">libxmljs</code> for parsing xml which allows parsing of external entities if  <code class="highlighter-rouge">noent</code> flag is set to  <code class="highlighter-rouge">true</code>, your goal is to read <b>/etc/passwd</b> file.</p>
+        <div class="card" style="width: 100%">
+            <div class="card-body">
+                <h3 class="card-title">Blog: Lorem Ipsum</h4><br>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non omnis blanditiis consequuntur. Placeat nobis quaerat esse! Maiores molestias quam at adipisci. Hic sequi qui tempore consectetur aliquid quisquam. Rem, illo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, ab qui dolore et facilis aperiam? Atque quasi repellendus facilis, quibusdam, reiciendis quae unde quia neque quaerat eveniet, ducimus iste mollitia. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla optio expedita error dolores et corporis ratione, molestiae minus voluptates rerum, ut non distinctio eaque commodi earum repellendus, temporibus molestias! Ipsa!</p>
+                <br>
+                <p class="card-text"><b>Comments:</b>
+                <pre id="user-comment"></pre>
+                <textarea id="comment" rows="2" cols="50"></textarea></p>
+                <input type="submit" id="postcomment" value="Send" onclick="postcomment()" class="btn btn-primary">
+            </div>
+        </div>
+        <br><br>
+        <h4> Vulnerable Code:</h4>
+        <h5>
+            <pre class="prettyprint">
+
+  var libxmljs = require('libxmljs');
+  ....
+  const rawcomment = req.body.comment;
+  const parsecomment = libxmljs.parseXmlString(rawcomment, {noent: true,noblanks:true}); // Vuln: noent is set to true
+  var comment = parsecomment.get('//content');
+  comment = comment.text();
+  res.send(comment)
+
+                </pre>
+        </h5>
+<script>
+function postcomment(){
+  var comment = document.getElementById('comment').value
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      var res = xhr.responseText;
+      document.getElementById("user-comment").innerHTML = res;
+      document.getElementById('comment').value = ''
+    }
+  }
+  data = 'comment=<comment><content>'+comment+'</content></comment>'
+  xhr.open('POST', window.location.origin+'/comment', true); 
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.withCredentials = true; 
+  xhr.send(data);
+}
+</script>
+</body>
+</html>

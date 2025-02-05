@@ -1,0 +1,9 @@
+<html>
+<body>
+    <script>
+    var token = "<%-apiToken%>";
+    window.opener.postMessage({'token': token}, '*')
+    window.close()
+</script>
+</body>
+</html>

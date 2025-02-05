@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include ('includes/header.ejs') %>
+</head>
+
+<body>
+    <%- include ('includes/navigation.ejs') %>
+
+    <div class='container' style='min-height: 450px'>
+        <h2>Graphql IDOR</h2>
+        <br>
+        <p>Application is trusting data supplied from the API client and using 
+            it to show the user details without performing the authorization check, 
+            your goal is to access details of other users by perfrom IDOR.
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Profile</h5>
+                        <p class="card-text">
+                        <p class="card-text">Username: <input class="form-control" id="username" type="text" readonly></p>
+                        <p class="card-text">Email: <input class="form-control" id="email" type="email" readonly></p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <h4> Vulnerable Code:</h4>
+        <h5>
+            <pre class="prettyprint">
+
+  # vuln_controller.js
+   const graphqlroot = {
+     user: graphql_GetUser,
+     listUsers: graphql_AllUsers,
+     updateProfile: graphql_UpdateProfile,
+     showProfile: graphql_ShowProfile
+  }
+
+  # vuln_controller.js
+  async function graphql_ShowProfile(args){
+    const userid = args.userid
+    const q = "SELECT * FROM users where id='" + userid + "';";
+    await con.connect()
+    const userdata = await con.promise().query(q)
+    return userdata[0][0]
+}          
+                </pre>
+        </h5>
+        <script>
+            loadProfile();
+            function loadProfile() {
+                fetch(`${window.location.origin}/graphql`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: `query showProfile($userid: Int!){ showProfile(userid: $userid){ username email }}`,
+                        variables: { userid: <%=userid%> }
+                    })
+                })
+                .then((res) => res.json())
+                .then((result) => {
+                    username.value = result.data.showProfile.username
+                    email.value = result.data.showProfile.email;
+                })
+            }
+        </script>
+</body>
+
+</html>

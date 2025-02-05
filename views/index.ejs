@@ -1,0 +1,327 @@
+<html lang="en">
+
+<head>
+  <%- include ('includes/header.ejs') %>
+</head>
+
+<body>
+  <%- include ('includes/navigation.ejs') %>
+  <div class='container' style='min-height: 450px'>
+    <div class='row'>
+      <div class='col-md-12'>
+        <h2>Vulnerabilities</h2>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Command Injection</h5>
+                <p class="card-text">Application is using exec method to run ping, your goal is to acheive the Remote
+                  Code Execution.</p>
+                <a href="/ping" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Insecure Deserialization</h5>
+                <p class="card-text">Application is using node-serialize method unserialize to parse preference cookie,
+                  your goal is to acheive the RCE.</p>
+  
+                <a href="/deserialization" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">JWT</h5>
+                <p class="card-text">Application is using weak secret to create JSON web token that can lead to
+                  authentication bypass.</p>
+                <a href="/jwt1" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">IDOR</h5>
+                <p class="card-text">Application has functionality to store notes, your goal is to access notes saved in
+                  <code>vulnlabAdmin</code> account.</p>
+                <a href="/notes" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">XSS</h5>
+                <p class="card-text">Three different XSS cases are covered in this exercise depending on the <code>ejs</code> template syntax used to display user supplied input and context.</p>
+                <a href="/xss" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">SSTI</h5>
+                <p class="card-text">Application is directly concatenating user supplied input to the template that can lead to SSTI your goal is to steal the database credentials.</p>
+                  <br>
+                <a href="/ssti?path=helloworld" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">SQL Injection</h5>
+                <p class="card-text">Application is concatenating user supplied input to SQL statement without any
+                  santization.</p>
+                <a href="/sqli" class="btn btn-primary">Exploit -&#x3e;</a>
+                <br/>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">XXE</h5>
+                <p class="card-text">Application is using libxmljs to parse xml input but noent flag is set to true which
+                  enables external entities parsing.</p>
+                <a href="/xxe" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">SSRF via PDF generator</h5>
+                <p class="card-text">Application is using html-pdf-node to generate ticket pdf your goal is to acheive
+                  the SSRF</p>
+                <a href="/ticket" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">postMessage XSS</h5>
+                <p class="card-text">Application has functionality to update password, which opens a new window and
+                  listens for the post message can you exploit it?</p>
+                <a href="/user-edit" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">postMessage CSRF</h5>
+                <p class="card-text">Application has functionality to add users in organization, your goal is to add
+                  your self in a victim organization by exploiting web messages.</p>
+                <a href="/organization" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Information Disclosure using addEventListener</h5>
+                <p class="card-text">Can you steal the user API token by exploiting Web Message.</p>
+                <br>
+                <a href="/api-token" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">CORS Information Disclosure</h5>
+                <p class="card-text">Steal the user API token by exploiting CORS.</p><br>
+                <a href="/cors-api-token" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">CORS CSRF</h5>
+                <p class="card-text">Application has insecure CORS implementation, your goal is to change user password
+                  by exploiting CORS.</p>
+                <a href="cors-csrf-edit-password" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">2FA</h5>
+                <p class="card-text">Application has insecure 2FA implementation.</p><br>
+                <a href="/setup-totp" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Cross-Site WebSocket Hijacking</h5>
+                <p class="card-text">Application is using old version of socket.io, your goal is to exploit it to
+                  disclose the balance in vicitm user account.</p>
+                <a href="/cross-site-websocket-hijacking" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">WebSocket XSS</h5>
+                <p class="card-text">Application is using websocket for real-time chat feature, But has only implemented
+                  client side input santization.</p><br>
+                <a href="/websocket-xss" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">ReactJS XSS</h5>
+                <p class="card-text">Application is using ReactJS which provides by default protection from XSS your
+                  goal is to
+                  perform XSS in ReactJS applications.</p>
+                <br>
+                <a href="/react-href-xss" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">React ref-innerHTML XSS</h5>
+                <p class="card-text">Application is using <code>ref </code>escape hatch with <code>innerHTML</code>
+                  property to update user supplied input.</p> <a href="/react-ref-innerHTML-xss"
+                  class=" btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">NoSQL Injection</h5>
+                <p class="card-text">Application is using <code>mongodb</code> to handle user notes your goal is to
+                  perform NoSQL injection to access other users notes.</p>
+                <a href="/mongodb-notes" class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Graphql Information Disclosure</h5>
+                <p class="card-text">Application is using GraphQL, your goal is to disclose the information of other registered users.</p> <br> <a href="/graphql-information-disclosure"
+                  class=" btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Graphql SQLI</h5>
+                <p class="card-text">Application is trusting data supplied from the API client and using it in a sql query without proper
+                  santization your goal is to perform SQL injection.</p> <a href="/graphql-user-profile"
+                  class=" btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Graphql CSRF</h5>
+                <p class="card-text">Application is using GraphQL, your goal is to perform CSRF.</p> <br> <a href="/graphql-update-profile"
+                  class=" btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Graphql IDOR</h5>
+                <p class="card-text">Application is trusting data supplied from the API client and using 
+                  it to show the user details without performing the authorization check.</p> <a href="/graphql-idor-show-profile"
+                  class=" btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">XSS using SVG file uplaod</h5>
+                <p class="card-text">Application has a functionality to upload profile picture your goal is to perform XSS.</p> <br> <a href="/svg-xss"
+                  class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">JSONP Injection</h5>
+                <p class="card-text">Application is using JSONP for fetching wallet balance information your goal is to steal wallet information of other users.</p> 
+                <br>
+                <a href="/jsonp-injection"
+                  class=" btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">NoSQL Javascript Injection</h5>
+                <p class="card-text">Application has a password protected secret your goal is to access it by using NoSQL injection.</p> <br> <a href="/nosql-js-injection"
+                  class="btn btn-primary">Exploit -&#x3e;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

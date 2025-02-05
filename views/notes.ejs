@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include ('includes/header.ejs') %>
+</head>
+
+<body>
+    <%- include ('includes/navigation.ejs') %>
+
+    <div class='container' style='min-height: 450px'>
+        <h2>Notes</h2>
+        <p>Application is loading Notes saved in user account based on the userid supplied in url path your
+            goal is to access notes saved in <code>vulnlabAdmin</code> account by performing IDOR.
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Create Notes</h5>
+                        <p class="card-text">
+                        <p class="card-text"><input class="form-control" id="noteTitle" type="text" value=""></p>
+                        <p class="card-text"><textarea class="form-control" id="noteBody"></textarea></p>
+                        <input type="submit" value="Add" onclick="saveNote()" class="btn btn-primary">
+                       
+                        <p class="card-text"></p><div id='message'></div> </p>  
+                    </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Notes</h5>
+                             <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">title</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="notesBody">
+                                  <tr id="root">
+                                  </tr>
+                                </tbody>
+                              </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <h4> Vulnerable Code:</h4>
+        <h5>
+            <pre class="prettyprint">
+
+  const userNotes_get = (req, res) => {
+  const userid = req.params.userid;
+  Notes.findAll({ where: { userid: userid } })
+    .then((queryResult) => {
+      res.header("Content-Type", "application/json")
+      res.send(JSON.stringify(queryResult));
+    })
+  }
+                </pre>
+        </h5>
+        <script>
+            function saveNote() {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                        document.getElementById('message').innerHTML = `<div class="alert alert-success" role="alert">Note Saved!</div>`;
+                        loadNotes();  
+                    }
+                }
+                xhr.open('POST', window.location.origin + '/notes');
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                data = "noteTitle=" + noteTitle.value + "&noteBody=" + noteBody.value;
+                xhr.withCredentials = true;
+                xhr.send(data);
+            }
+
+            loadNotes();
+
+            function loadNotes(){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    var data = JSON.parse(xhr.response);
+                    notesBody.innerHTML = '<tr id="root"></tr>'
+                    data.forEach(element=>root.insertAdjacentHTML('beforebegin', `<tr><td>${element.id}</td><td>${element.noteTitle}</td></tr>`)); 
+                    }
+                }
+                xhr.open('GET', window.location.href+"/user/<%=userid%>");
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.withCredentials = true; 
+                xhr.send();
+            }
+
+        </script>
+                
+</body>
+
+</html>
