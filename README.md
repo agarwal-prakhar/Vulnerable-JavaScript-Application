@@ -86,7 +86,7 @@ access the application http://localhost:9000
 1. Clone the repository.
 
 ```bash
-git clone [https://github.com/agarwal-prakhar/Vulnerable-JavaScript-Application.git]
+git clone https://github.com/agarwal-prakhar/Vulnerable-JavaScript-Application.git
 cd ./Vulnerable-JavaScript-Application
 ```
 
